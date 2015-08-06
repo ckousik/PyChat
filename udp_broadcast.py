@@ -1,35 +1,36 @@
-import socket
+import socket, time,sys
 from threading import Thread
 
 class UDP_Broadcast(Thread):
-    def __init__(self,SERVER_IP,PORT):
-        self.IP = SERVER_IP
+    def __init__(self,PORT):
         self.PORT = PORT
         self.sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
         self.init = False
+        self.sock.bind((' ',self.PORT))
+        self.sock.setblocking(0)
+        self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+        self.Flag = True
 
     def run(self):
-        broadcast_data = str(self.IP)+str(self.PORT)
-        while True:
+        while self.Flag:
             try:
-                sock.sendto(broadcast_data.encode(),('255.255.255.255',self.PORT))
+                self.sock.sendto(''.encode(),('255.255.255.255',self.PORT))
             except Exception as e:
                 print(e)
                 self.join()
+                break
+        self.sock.shutdown(1)
+        self.sock.close()
 
-    def join(self):
-        try:
-            sock.shutdown(1)
-            sock.close()
-            Thread().join()
-        except:
-            print("Could not join broadcast thread...killing thread...")
-            self.stop()
+    def flipFlag(self):
+        self.Flag = not self.Flag
 
-    def stop(self):
-        try:
-            sock.close()
-        except:
-            print("Error closing socket...")
-        finally:
-            Thread().stop()
+try:
+    udp = UDP_Broadcast(12345)
+    udp.run()
+except KeyboardInterrupt as e:
+    print("Shutting down broadcast")
+except Exception as e:
+    print(e)
+finally:
+    sys.exit(0)
