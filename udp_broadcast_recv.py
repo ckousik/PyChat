@@ -23,5 +23,8 @@ class UDPBroadcastReciever(Thread):
                 print(e)
                 break
 
+'''
+#TEST
 b = UDPBroadcastReciever(12345)
 b.run()
+'''

@@ -24,7 +24,8 @@ class UDP_Broadcast(Thread):
 
     def flipFlag(self):
         self.Flag = not self.Flag
-
+'''
+#TEST
 try:
     udp = UDP_Broadcast(12345)
     udp.run()
@@ -34,3 +35,4 @@ except Exception as e:
     print(e)
 finally:
     sys.exit(0)
+'''
