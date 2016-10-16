@@ -1,9 +1,7 @@
 import socket,sys,time
 
-#SERVER_IP = input('Server local ip')
-#PORT=input('Server port')
-SERVER_IP='192.168.56.1'
-PORT=3000
+SERVER_IP = input('Server local ip')
+PORT=input('Server port')
 s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 try:
     print("Connecting to %s:%d"%(SERVER_IP,PORT))
